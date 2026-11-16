@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LUXORA Atelier | Executive Administration Suite</title>
+  
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --noir: #0d0c0b;
+      --surface: #141311;
+      --card: #1a1815;
+      --border: #2a2620;
+      --border-light: #3d3830;
+      --gold: #d4af37;
+      --gold-light: #f4e4a6;
+      --creme: #f5f0e6;
+      --muted: #9c9488;
+      --danger: #e05252;
+      --success: #4ec985;
+      --font-display: 'Cinzel', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--noir);
+      color: var(--creme);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Layout Structure */
+    aside.sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 20px;
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .brand-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    nav.nav-menu { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-align: left;
+      transition: all 0.25s ease;
+    }
+    .nav-btn:hover { color: var(--creme); background: rgba(212, 175, 55, 0.05); }
+    .nav-btn.active {
+      color: var(--gold);
+      background: var(--card);
+      border-color: var(--border);
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .view-store-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .view-store-link:hover { color: var(--gold); }
+
+    /* Main Content Area */
+    main.content {
+      flex: 1;
+      padding: 36px 40px;
+      overflow-y: auto;
+    }
+
+    header.top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+    .top-header h1 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--noir);
+      border: none;
+      padding: 10px 22px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* Metric Summary Cards */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .metric-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 22px;
+      border-radius: 2px;
+    }
+    .metric-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .metric-card .val {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .metric-card .sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Tab Sections */
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+
+    /* Tables */
+    .table-container {
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      padding: 14px 18px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+    .thumb {
+      width: 44px;
+      height: 52px;
+      object-fit: cover;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+    }
+    .badge.gold { border-color: var(--gold); color: var(--gold); }
+    .badge.green { border-color: var(--success); color: var(--success); }
+    .badge.red { border-color: var(--danger); color: var(--danger); }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--creme);
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .action-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .action-btn.del:hover { border-color: var(--danger); color: var(--danger); }
+
+    /* Modal Form */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 12, 11, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: var(--card);
+      border: 1px solid var(--gold);
+      width: 100%;
+      max-width: 580px;
+      padding: 32px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .modal-header h2 { font-family: var(--font-display); font-size: 1.3rem; color: var(--gold); }
+    .close-modal { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--creme);
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      body { flex-direction: column; }
+      aside.sidebar { width: 100%; height: auto; position: static; }
+      main.content { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand-logo">LUXORA</div>
+    <div class="brand-subtitle">Executive Suite</div>
+
+    <nav class="nav-menu">
+      <button class="nav-btn active" onclick="switchTab('products')">✦ Products Inventory</button>
+      <button class="nav-btn" onclick="switchTab('orders')">☖ Atelier Orders</button>
+      <button class="nav-btn" onclick="switchTab('inquiries')">✉ Client Concierge</button>
+      <button class="nav-btn" onclick="switchTab('settings')">⚙ Store Settings</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="view-store-link" target="_blank">↗ Live Storefront</a>
+      <span style="font-size: 0.72rem; color: var(--muted);">Encrypted Session: Active</span>
+    </div>
+  </aside>
+
+  <!-- Main Content View -->
+  <main class="content">
+    <header class="top-header">
+      <div>
+        <h1 id="page-title">Products Inventory</h1>
+        <p style="color: var(--muted); font-size: 0.82rem; margin-top: 4px;">Live catalog management & vault inventory control</p>
+      </div>
+      <button class="btn-gold" id="primary-action-btn" onclick="openAddProductModal()">+ Add New Piece</button>
+    </header>
+
+    <!-- Metrics Cards -->
+    <section class="metrics-grid">
+      <div class="metric-card">
+        <h4>Vault Value (Live)</h4>
+        <div class="val" id="metric-vault-val">$22,730</div>
+        <div class="sub">12 Masterpieces Listed</div>
+      </div>
+      <div class="metric-card">
+        <h4>30-Day Orders</h4>
+        <div class="val">18</div>
+        <div class="sub">100% White-Glove Insured</div>
+      </div>
+      <div class="metric-card">
+        <h4>Avg. Order Value</h4>
+        <div class="val">$1,840</div>
+        <div class="sub">+14% vs last quarter</div>
+      </div>
+      <div class="metric-card">
+        <h4>Pending Inquiries</h4>
+        <div class="val" style="color: var(--gold-light);">3</div>
+        <div class="sub">VIP Client Requests</div>
+      </div>
+    </section>
+
+    <!-- Tab 1: Products Table -->
+    <section id="tab-products" class="tab-section active">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Piece</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Rating</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="products-table-body">
+            <!-- Dynamically populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab 2: Orders Section -->
+    <section id="tab-orders" class="tab-section">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Client</th>
+              <th>Pieces</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Courier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family: monospace; color: var(--gold);">#LX-9082</td>
+              <td>Countess Elena Rostova</td>
+              <td>Rosé Noir Tote (Noir)</td>
+              <td>$1,280</td>
+              <td><span class="badge green">Dispatched</span></td>
+              <td>Ferrari Group Armored</td>
+            </tr>
+            <tr>
+              <td style="font-family: monospace; color: var(--gold);">#LX-9081</td>
+              <td>Dr. Marcus Vance</td>
+              <td>Chrono Gold Classic, Éclat d'Ambre</td>
+              <td>$4,220</td>
+              <td><span class="badge gold">In Atelier</span></td>
+              <td>FedEx Custom Critical</td>
+            </tr>
+            <tr>
+              <td style="font-family: monospace; color: var(--gold);">#LX-9080</td>
+              <td>Sophia Laurent</td>
+              <td>Aurora Diamond Ring (Size 6)</td>
+              <td>$2,450</td>
+              <td><span class="badge green">Delivered</span></td>
+              <td>DHL Express Signature</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab 3: Concierge Inquiries -->
+    <section id="tab-inquiries" class="tab-section">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Client Name</th>
+              <th>Contact Email</th>
+              <th>Subject / Piece</th>
+              <th>Status</th>
+              <th style="text-align: right;">Reply</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Julien De Vries</td>
+              <td>j.devries@amsterdam-holding.com</td>
+              <td>Private Viewing request for Chrono Gold Classic in NYC</td>
+              <td><span class="badge gold">Pending Review</span></td>
+              <td style="text-align: right;"><button class="action-btn" onclick="alert('Opening secure VIP mail client...')">Respond</button></td>
+            </tr>
+            <tr>
+              <td>Claire Dupont</td>
+              <td>c.dupont@paris-art.fr</td>
+              <td>Custom bespoke engraving on Rosé Noir Tote lock</td>
+              <td><span class="badge green">Replied</span></td>
+              <td style="text-align: right;"><button class="action-btn" onclick="alert('Thread view opened.')">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab 4: Store Settings -->
+    <section id="tab-settings" class="tab-section">
+      <div style="background: var(--card); border: 1px solid var(--border); padding: 28px; max-width: 680px;">
+        <h3 style="font-family: var(--font-display); color: var(--gold); margin-bottom: 18px;">Atelier Policies & Parameters</h3>
+        <div class="form-group">
+          <label>Flagship Address</label>
+          <input type="text" value="125 Madison Avenue, New York, NY 10016, USA" />
+        </div>
+        <div class="form-group">
+          <label>VIP Concierge Email</label>
+          <input type="email" value="concierge@luxora-store.com" />
+        </div>
+        <div class="form-group">
+          <label>Free Insured Shipping Threshold ($ USD)</label>
+          <input type="number" value="500" />
+        </div>
+        <div class="form-group">
+          <label>Standard Armored Courier Fee ($ USD)</label>
+          <input type="number" value="25" />
+        </div>
+        <button class="btn-gold" onclick="alert('Store configuration updated successfully.')">Save Settings</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Add New Product -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Acquire New Atelier Piece</h2>
+        <button class="close-modal" onclick="closeAddProductModal()">&times;</button>
+      </div>
+      <form id="add-product-form" onsubmit="handleCreateProduct(event)">
+        <div class="form-group">
+          <label>Piece Title</label>
+          <input type="text" id="p-name" placeholder="e.g. Vendôme Sapphire Ring" required />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="p-category">
+            <option value="handbags">Handbags</option>
+            <option value="jewellery">Jewellery</option>
+            <option value="watches">Watches</option>
+            <option value="fragrance">Fragrance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price ($ USD)</label>
+          <input type="number" id="p-price" placeholder="1850" required />
+        </div>
+        <div class="form-group">
+          <label>Tagline / Material Note</label>
+          <input type="text" id="p-tagline" placeholder="18k white gold with Ceylon sapphire" required />
+        </div>
+        <div class="form-group">
+          <label>Atelier Description</label>
+          <textarea id="p-desc" rows="3" placeholder="Crafted by master artisans in Florence..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Badge Highlight</label>
+          <select id="p-badge">
+            <option value="">None</option>
+            <option value="New">New Arrival</option>
+            <option value="Bestseller">Bestseller</option>
+            <option value="Limited">Limited Edition</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-gold" style="width: 100%;">Commit to Vault Catalog</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Load products dataset if available -->
+  <script src="config.js"></script>
+  <script src="products.js"></script>
+
+  <script>
+    // Fallback catalog if products.js is not loaded
+    let catalog = (window.LuxoraCatalog && window.LuxoraCatalog.PRODUCTS) ? [...window.LuxoraCatalog.PRODUCTS] : [
+      { slug: "rose-noir-tote", name: "Rosé Noir Tote", category: "handbags", price: 1280, badge: "Bestseller", rating: 4.9, image: "src/assets/p-rose-noir-tote.jpg" },
+      { slug: "milano-mini-crossbody", name: "Milano Mini Crossbody", category: "handbags", price: 890, badge: "New", rating: 4.8, image: "src/assets/p-milano-crossbody.jpg" },
+      { slug: "sienna-top-handle", name: "Sienna Top-Handle", category: "handbags", price: 1540, badge: "Limited", rating: 5.0, image: "src/assets/p-sienna-top-handle.jpg" },
+      { slug: "aurora-diamond-ring", name: "Aurora Diamond Ring", category: "jewellery", price: 2450, badge: "Bestseller", rating: 4.9, image: "src/assets/p-aurora-ring.jpg" },
+      { slug: "chrono-gold-classic", name: "Chrono Gold Classic", category: "watches", price: 3900, badge: "Bestseller", rating: 4.9, image: "src/assets/p-chrono-gold.jpg" },
+      { slug: "eclat-d-ambre", name: "Éclat d'Ambre", category: "fragrance", price: 320, badge: "Bestseller", rating: 4.9, image: "src/assets/p-eclat-ambre.jpg" }
+    ];
+
+    function renderProductsTable() {
+      const tbody = document.getElementById('products-table-body');
+      if (!tbody) return;
+
+      tbody.innerHTML = catalog.map((p, idx) => `
+        <tr>
+          <td>
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <img src="${p.image || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100'}" class="thumb" alt="${p.name}" onerror="this.src='https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100'" />
+              <div>
+                <strong style="color: var(--creme); font-size: 0.92rem;">${p.name}</strong>
+                <p style="font-size: 0.72rem; color: var(--muted);">${p.slug}</p>
+              </div>
+            </div>
+          </td>
+          <td style="text-transform: capitalize; color: var(--muted);">${p.category}</td>
+          <td style="font-family: var(--font-body); font-weight: 600; color: var(--gold);">$${p.price.toLocaleString()}</td>
+          <td>
+            ${p.badge ? `<span class="badge gold">${p.badge}</span>` : `<span class="badge" style="color: var(--muted)">Standard</span>`}
+          </td>
+          <td>★ ${p.rating || 5.0}</td>
+          <td style="text-align: right;">
+            <button class="action-btn del" onclick="deleteProduct(${idx})">Archive</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Update Vault total
+      const total = catalog.reduce((sum, p) => sum + p.price, 0);
+      const vaultEl = document.getElementById('metric-vault-val');
+      if (vaultEl) vaultEl.textContent = '$' + total.toLocaleString();
+    }
+
+    function switchTab(tabKey) {
+      document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabKey);
+      if (target) target.classList.add('active');
+
+      const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.textContent.toLowerCase().includes(tabKey));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const title = document.getElementById('page-title');
+      const actionBtn = document.getElementById('primary-action-btn');
+      if (tabKey === 'products') {
+        title.textContent = 'Products Inventory';
+        actionBtn.style.display = 'block';
+      } else if (tabKey === 'orders') {
+        title.textContent = 'Atelier Orders';
+        actionBtn.style.display = 'none';
+      } else if (tabKey === 'inquiries') {
+        title.textContent = 'Client Concierge';
+        actionBtn.style.display = 'none';
+      } else if (tabKey === 'settings') {
+        title.textContent = 'Store Settings';
+        actionBtn.style.display = 'none';
+      }
+    }
+
+    function openAddProductModal() {
+      document.getElementById('product-modal').classList.add('active');
+    }
+
+    function closeAddProductModal() {
+      document.getElementById('product-modal').classList.remove('active');
+    }
+
+    function handleCreateProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('p-name').value.trim();
+      const category = document.getElementById('p-category').value;
+      const price = parseFloat(document.getElementById('p-price').value) || 1000;
+      const tagline = document.getElementById('p-tagline').value.trim();
+      const badge = document.getElementById('p-badge').value;
+
+      const newPiece = {
+        slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        name,
+        category,
+        price,
+        tagline,
+        badge: badge || null,
+        rating: 5.0,
+        image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80'
+      };
+
+      catalog.unshift(newPiece);
+      renderProductsTable();
+      closeAddProductModal();
+      document.getElementById('add-product-form').reset();
+    }
+
+    function deleteProduct(index) {
+      if (confirm('Are you sure you want to archive this luxury piece from the public vault?')) {
+        catalog.splice(index, 1);
+        renderProductsTable();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderProductsTable);
+  </script>
+</body>
+</html>
