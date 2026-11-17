@@ -60,9 +60,7 @@ img {
   display: block;
 }
 
-/* =====================================
-   HEADER & NAVIGATION
-===================================== */
+/* HEADER & NAVIGATION */
 
 header {
   width: 100%;
@@ -126,9 +124,7 @@ nav {
   z-index: 2000;
 }
 
-/* =====================================
-   HERO SECTION
-===================================== */
+/* HERO SECTION */
 
 .hero {
   min-height: 620px;
@@ -197,9 +193,7 @@ nav {
   color: #0a0908;
 }
 
-/* =====================================
-   GENERAL SECTION
-===================================== */
+/* GENERAL SECTION */
 
 section {
   padding: 85px 7%;
@@ -221,9 +215,7 @@ section h3 {
   color: var(--gold);
 }
 
-/* =====================================
-   CATEGORIES
-===================================== */
+/* CATEGORIES */
 
 .categories {
   max-width: 1450px;
@@ -232,7 +224,7 @@ section h3 {
 
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
 }
 
@@ -267,13 +259,7 @@ section h3 {
   margin-top: auto;
 }
 
-.category-grid article a:hover {
-  color: var(--gold-light);
-}
-
-/* =====================================
-   BRAND STORY
-===================================== */
+/* BRAND STORY */
 
 .story {
   text-align: center;
@@ -289,9 +275,7 @@ section h3 {
   font-size: 13px;
 }
 
-/* =====================================
-   FAQ
-===================================== */
+/* FAQ */
 
 .faq {
   max-width: 1000px;
@@ -316,9 +300,7 @@ section h3 {
   font-size: 12px;
 }
 
-/* =====================================
-   PRODUCT GRID
-===================================== */
+/* PRODUCT GRID */
 
 #product-list,
 .product-grid,
@@ -384,9 +366,7 @@ section h3 {
   color: #000;
 }
 
-/* =====================================
-   FOOTER
-===================================== */
+/* FOOTER */
 
 footer {
   background: #050505;
@@ -406,21 +386,12 @@ footer {
   margin: 10px 0;
 }
 
-.footer-info strong {
-  color: var(--gold);
-}
-
+.footer-info strong,
 .footer-info a {
   color: var(--gold);
 }
 
-.footer-info a:hover {
-  color: var(--gold-light);
-}
-
-/* =====================================
-   INPUTS & SELECT
-===================================== */
+/* INPUTS */
 
 input,
 select,
@@ -442,9 +413,7 @@ input::placeholder {
   color: #898174;
 }
 
-/* =====================================
-   CART & WISHLIST
-===================================== */
+/* CART & WISHLIST */
 
 .cart-panel,
 #wishlist,
@@ -467,12 +436,9 @@ input::placeholder {
   padding: 9px 15px;
 }
 
-/* =====================================
-   RESPONSIVE — TABLET
-===================================== */
+/* TABLET */
 
 @media (max-width: 1000px) {
-  .category-grid,
   #product-list,
   .product-grid,
   .products-grid {
@@ -494,9 +460,7 @@ input::placeholder {
   }
 }
 
-/* =====================================
-   RESPONSIVE — MOBILE
-===================================== */
+/* MOBILE */
 
 @media (max-width: 600px) {
   body {
@@ -515,6 +479,7 @@ input::placeholder {
 
   .nav-links {
     gap: 10px 15px;
+    justify-content: center;
   }
 
   .nav-links a {
@@ -541,11 +506,17 @@ input::placeholder {
   }
 
   .category-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   .category-grid article {
     min-height: 190px;
+    padding: 20px 14px;
+  }
+
+  .category-grid article h3 {
+    font-size: 21px;
   }
 
   #product-list,
